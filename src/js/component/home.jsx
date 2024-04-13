@@ -1,24 +1,49 @@
-import React from "react";
+import React, { useState } from "react";
 
-//include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
 
 //create your first component
 const Home = () => {
+
+	const todosURL = "https://playground.4geeks.com/todo/"
+	const [todos, setTodos] = useState([])
+	
+	// obtener lista de todos
+	function getTodos () {
+
+		fetch(todosURL + 'users/diazmoraj')
+		.then(response=>response.json())
+		.then(data=>{
+			setTodos(data.todos)
+		})
+		.catch((error) => {console.log(error)})
+	}
+
+	// obtener lista de todos
+	function addTodos(){
+		let newTodo ={}
+		fetch(todosURL + 'users/diazmoraj', {
+			method: "POST",
+			body: JSON.stringify(newTodo),
+			headers: {'Content-type': 'application/json'}
+		})
+		.then(response=>response.json())
+		.then(data=>{
+			setTodos(data.todos)
+		})
+		.catch((error) => {console.log(error)})
+	}
+		
+	function deltodos(){
+		
+	}
+	getTodos();
+
+
+
 	return (
 		<div className="text-center">
-			<h1 className="text-center mt-5">Hello Rigo!</h1>
-			<p>
-				<img src={rigoImage} />
-			</p>
-			<a href="#" className="btn btn-success">
-				If you see this green button... bootstrap is working...
-			</a>
-			<p>
-				Made by{" "}
-				<a href="http://www.4geeksacademy.com">4Geeks Academy</a>, with
-				love!
-			</p>
+			<h1>TO DO's</h1>
+			
 		</div>
 	);
 };
