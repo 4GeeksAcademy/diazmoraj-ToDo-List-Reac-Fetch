@@ -6,6 +6,7 @@ const Home = () => {
 
 	const getTodosURL = "https://playground.4geeks.com/todo/users/diazmoraj"
 	const addTodosURL = "https://playground.4geeks.com/todo/todos/diazmoraj"
+	const delTodosURL = "https://playground.4geeks.com/todo/todos/"
 	const [todos, setTodos] = useState([])
 
 	useEffect(() => {
@@ -15,18 +16,27 @@ const Home = () => {
 		.catch((error) => {error})
 	}, [])
 	
-	let newTodo ={
-		"label": "jugar bola"
-	}
-
 	function addTodos() {
+		let newTodo ={
+		}
 		fetch(addTodosURL, {
 			method: "POST",
 			body: JSON.stringify(newTodo),
 			headers: {'Content-type': 'application/json'}
 		})
 		.then(response=>response.json())
-		.then(data=> console.log(data))
+		.then(data=> {setTodos(data.todos)})
+		.catch((error) => (error))
+	}
+
+	function delTodos(){
+		fetch(delTodosURL, {
+			method: "DELETE",
+			body: JSON.stringify(setTodos),
+			headers: {'Content-type': 'application/json'}
+		})
+		.then(response=>response.json())
+		.then(data => {setTodos(data.todos)})
 		.catch((error) => (error))
 	}
 	
