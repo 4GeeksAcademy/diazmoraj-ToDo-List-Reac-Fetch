@@ -6,23 +6,27 @@ const Home = () => {
 
 	const getTodosURL = "https://playground.4geeks.com/todo/users/diazmoraj"
 	const addTodosURL = "https://playground.4geeks.com/todo/todos/diazmoraj"
-	const delTodosURL = "https://playground.4geeks.com/todo/todos/"
+	const delTodosURL = `https://playground.4geeks.com/todo/todos/${id}`
 	const [inputValue, setInputValue] = useState("")
 	const [todos, setTodos] = useState([])
 
-	useEffect(() => {
+	function getTodos() {
 		fetch(getTodosURL)
 		.then(response => response.json())
 		.then(data => {setTodos(data.todos)})
 		.catch((error) => {error})
+	}
+
+	useEffect(() => {
+		getTodos()
 	}, [])
 	
 	function addTodos() {
-		let newTodo ={
-		}
+		//let newTodo ={
+		//}
 		fetch(addTodosURL, {
 			method: "POST",
-			body: JSON.stringify(newTodo),
+			body: JSON.stringify({"label": inputValue}),
 			headers: {'Content-type': 'application/json'}
 		})
 		.then(response=>response.json())
@@ -37,7 +41,9 @@ const Home = () => {
 			headers: {'Content-type': 'application/json'}
 		})
 		.then(response=>response.json())
-		.then(data => {setTodos(data.todos)})
+		.then (() => {
+			setTodos((getTodos) => getTodos.filter((todos) => todos.id !== id));
+		})
 		.catch((error) => (error))
 	}
 	
@@ -54,14 +60,16 @@ const Home = () => {
 							(inputValue.trim() !==""){
 								setTodos(todos.concat([inputValue.trim()]));
 								setInputValue("");
+								addTodos();
+								getTodos();
 							}
 						}
 					}}
 						placeholder="What do you need to do"></input>
 			{todos.map((value, index) => {
-				return <h3 key={index}>{value.label}</h3>
+				return (<h3 key={index}>{value.label}</h3>);
+				<button className="btn btn-danger" onClick={() => delTodos(value.id)}>Delete</button>
 			})}
-			<button className="btn btn-danger" onClick={delTodos}>Delete</button>
 		</div>
 	);
 };
