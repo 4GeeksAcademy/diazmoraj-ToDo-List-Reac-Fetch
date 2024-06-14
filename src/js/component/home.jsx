@@ -2,11 +2,10 @@ import React, { useEffect, useState } from "react";
 
 
 //create your first component
-const Home = () => {
+const Home = (id) => {
 
 	const getTodosURL = "https://playground.4geeks.com/todo/users/diazmoraj"
 	const addTodosURL = "https://playground.4geeks.com/todo/todos/diazmoraj"
-	const delTodosURL = `https://playground.4geeks.com/todo/todos/${id}`
 	const [inputValue, setInputValue] = useState("")
 	const [todos, setTodos] = useState([])
 
@@ -34,15 +33,17 @@ const Home = () => {
 		.catch((error) => (error))
 	}
 
-	function delTodos(){
-		fetch(delTodosURL, {
+	function delTodos(id){
+		//console.log(id);
+		fetch(`https://playground.4geeks.com/todo/todos/${id}`, {
 			method: "DELETE",
 			body: JSON.stringify(setTodos),
 			headers: {'Content-type': 'application/json'}
 		})
 		.then(response=>response.json())
 		.then (() => {
-			setTodos((getTodos) => getTodos.filter((todos) => todos.id !== id));
+			setTodos((newList) => todos.filter((todos) => todos.id !== id));
+			getTodos();
 		})
 		.catch((error) => (error))
 	}
@@ -67,8 +68,12 @@ const Home = () => {
 					}}
 						placeholder="What do you need to do"></input>
 			{todos.map((value, index) => {
-				return (<h3 key={index}>{value.label}</h3>);
-				<button className="btn btn-danger" onClick={() => delTodos(value.id)}>Delete</button>
+				return (
+					<div>
+						<h3 key={index}>{value.label}</h3>
+						<button className="btn btn-danger" onClick={() => delTodos(value.id)}>Delete</button>
+					</div>
+				);
 			})}
 		</div>
 	);
