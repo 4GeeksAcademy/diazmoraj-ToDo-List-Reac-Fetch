@@ -29,7 +29,7 @@ const Home = (id) => {
 			headers: {'Content-type': 'application/json'}
 		})
 		.then(response=>response.json())
-		.then(data=> {setTodos(data.todos)})
+		.then(data=> {getTodos(data.todos)})
 		.catch((error) => (error))
 	}
 
@@ -42,8 +42,8 @@ const Home = (id) => {
 		})
 		.then(response=>response.json())
 		.then (() => {
-			setTodos((newList) => todos.filter((todos) => todos.id !== id));
-			getTodos();
+			setTodos(todos.filter((todos) => todos.id !== id));
+			// getTodos();
 		})
 		.catch((error) => (error))
 	}
@@ -69,9 +69,9 @@ const Home = (id) => {
 						placeholder="What do you need to do"></input>
 			{todos.map((value, index) => {
 				return (
-					<div>
-						<h3 key={index}>{value.label}</h3>
-						<button className="btn btn-danger" onClick={() => delTodos(value.id)}>Delete</button>
+					<div key={index}>
+						{value.label}
+						<button className="btn" onClick={() => delTodos(value.id)}>X</button>
 					</div>
 				);
 			})}
