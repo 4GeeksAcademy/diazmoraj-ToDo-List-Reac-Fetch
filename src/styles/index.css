@@ -12,11 +12,33 @@
 */
 
 .btn{
-    background-color: red;
-    position: relative;
-    color: black;
+    background-color: black;
+    position: absolute;
+    color: white;
     font-size: 10px;
     padding: 5px;
     height: 20px;
     padding-top: 2px;
+    left: 817px;
+    margin-top: 2px;
+}
+
+.div{
+    text-align: left;
+    margin-top: 10px;
+}
+
+.div2{
+    text-align: left;
+    margin-left: 250px;
+    border: solid 2px;
+    width: 600px;
+    margin-top: 10px;
+    background-color: lightgray;
+    padding: 10px;
+    border-radius: 15px;
+}
+
+.btn:hover{
+    background-color: red;
 }

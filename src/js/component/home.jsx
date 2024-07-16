@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 
 //create your first component
-const Home = (id) => {
+const Home = () => {
 
 	const getTodosURL = "https://playground.4geeks.com/todo/users/diazmoraj"
 	const addTodosURL = "https://playground.4geeks.com/todo/todos/diazmoraj"
@@ -34,22 +34,18 @@ const Home = (id) => {
 	}
 
 	function delTodos(id){
-		//console.log(id);
 		fetch(`https://playground.4geeks.com/todo/todos/${id}`, {
 			method: "DELETE",
-			body: JSON.stringify(setTodos),
-			headers: {'Content-type': 'application/json'}
 		})
 		.then(response=>response.json())
 		.then (() => {
 			setTodos(todos.filter((todos) => todos.id !== id));
-			// getTodos();
 		})
 		.catch((error) => (error))
 	}
 	
 	return (
-		<div className="text-center">
+		<div className="div2">
 			<h1>TO DO's</h1>
 			<input
 				type="text"
@@ -66,12 +62,14 @@ const Home = (id) => {
 							}
 						}
 					}}
-						placeholder="What do you need to do"></input>
+						placeholder="What do you need to do?"></input>
 			{todos.map((value, index) => {
 				return (
-					<div key={index}>
-						{value.label}
-						<button className="btn" onClick={() => delTodos(value.id)}>X</button>
+					<div key={index} className="div">
+						<h5>
+							{value.label}
+							<button className="btn" type="submit" onClick={() => delTodos(value.id)}>X</button>
+						</h5>
 					</div>
 				);
 			})}
